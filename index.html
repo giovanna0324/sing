@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英文歌词点读</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 15px;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            gap: 10px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px 10px;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .btn.active {
+            background-color: #357ABD;
+            transform: scale(0.98);
+        }
+        .verse {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            border-left: 4px solid #ddd;
+            white-space: nowrap;
+            overflow-x: auto;
+            min-height: 60px;
+        }
+        .line {
+            display: block;
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        .word {
+            display: inline-block;
+            margin: 5px 2px;
+            padding: 6px 6px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            position: relative;
+            user-select: none;
+            font-size: 15px;
+        }
+        .word:hover {
+            background-color: #eef7ff;
+        }
+        .word.active {
+            background-color: #4A90E2;
+            color: white;
+            font-weight: bold;
+        }
+        .info-panel {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            min-height: 80px;
+            display: none;
+            border: 1px solid #eee;
+        }
+        .phonetic {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+        .translation {
+            font-size: 16px;
+            color: #333;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 10px;
+        }
+        @media (max-width: 600px) {
+            .controls {
+                flex-direction: row;
+                align-items: center;
+            }
+            .btn {
+                font-size: 13px;
+                padding: 10px 5px;
+            }
+            .container {
+                padding: 15px 10px;
+            }
+            .verse {
+                font-size: 14px;
+            }
+            .word {
+                font-size: 14px;
+                padding: 5px 5px;
+                margin: 4px 1px;
+            }
+            .line {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="controls">
+            <button id="btn1" class="btn active">Clap your hands</button>
+            <button id="btn2" class="btn">Silent night</button>
+        </div>
+        
+        <!-- 内容一 -->
+        <div id="content1" class="content-area">
+            <!-- 内容一分段1 -->
+            <div class="verse">
+                <div id="infoPanel1" class="info-panel">
+                    <div id="phoneticDisplay1" class="phonetic"></div>
+                    <div id="translationDisplay1" class="translation"></div>
+                </div>
+                <div class="line"><span class="word">Clap</span> <span class="word">your</span> <span class="word">hands</span> <span class="word">and</span> <span class="word">sing</span> <span class="word">hallelujah!</span></div>
+                <div class="line"><span class="word">Reach</span> <span class="word">up</span> <span class="word">to</span> <span class="word">the</span> <span class="word">sky.</span></div>
+                <div class="line"><span class="word">Clap</span> <span class="word">your</span> <span class="word">hands</span> <span class="word">and</span> <span class="word">sing</span> <span class="word">hallelujah!</span></div>
+                <div class="line"><span class="word">Lift</span> <span class="word">your</span> <span class="word">voices</span> <span class="word">high.</span></div>
+                <div class="line"><span class="word">Won't</span> <span class="word">you</span> <span class="word">join</span> <span class="word">the</span> <span class="word">celebration?</span></div>
+                <div class="line"><span class="word">Come</span> <span class="word">and</span> <span class="word">let</span> <span class="word">your</span> <span class="word">song</span> <span class="word">ring</span> <span class="word">loud</span> <span class="word">and</span> <span class="word">clear.</span></div>
+                <div class="line"><span class="word">Clap</span> <span class="word">your</span> <span class="word">hands</span> <span class="word">and</span> <span class="word">sing</span> <span class="word">hallelujah,</span></div>
+                <div class="line"><span class="word">cause</span> <span class="word">a</span> <span class="word">brand</span> <span class="word">new</span> <span class="word">day</span> <span class="word">is</span> <span class="word">here.</span></div>
+            </div>
+            
+            <!-- 内容一分段2 -->
+            <div class="verse">
+                <div id="infoPanel1-2" class="info-panel">
+                    <div id="phoneticDisplay1-2" class="phonetic"></div>
+                    <div id="translationDisplay1-2" class="translation"></div>
+                </div>
+                <div class="line"><span class="word">You</span> <span class="word">can</span> <span class="word">find</span> <span class="word">a</span> <span class="word">little</span> <span class="word">bit</span> <span class="word">of</span> <span class="word">sunshine,</span></div>
+                <div class="line"><span class="word">even</span> <span class="word">on</span> <span class="word">the</span> <span class="word">darkest</span> <span class="word">day;</span></div>
+                <div class="line"><span class="word">and</span> <span class="word">if</span> <span class="word">you</span> <span class="word">try,</span> <span class="word">you</span> <span class="word">can</span> <span class="word">chase</span> <span class="word">your</span> <span class="word">troubles</span> <span class="word">away!</span></div>
+                <div class="line"><span class="word">So</span> <span class="word">before</span> <span class="word">another</span> <span class="word">day</span> <span class="word">is</span> <span class="word">over,</span></div>
+                <div class="line"><span class="word">try</span> <span class="word">your</span> <span class="word">hand</span> <span class="word">at</span> <span class="word">something</span> <span class="word">new</span></div>
+                <div class="line"><span class="word">cause</span> <span class="word">you</span> <span class="word">never</span> <span class="word">know</span></div>
+                <div class="line"><span class="word">what's</span> <span class="word">out</span> <span class="word">there</span> <span class="word">waiting</span> <span class="word">for</span> <span class="word">you.</span></div>
+            </div>
+            
+            <!-- 内容一分段3 -->
+            <div class="verse">
+                <div id="infoPanel1-3" class="info-panel">
+                    <div id="phoneticDisplay1-3" class="phonetic"></div>
+                    <div id="translationDisplay1-3" class="translation"></div>
+                </div>
+                <div class="line"><span class="word">Can't</span> <span class="word">you</span> <span class="word">hear</span> <span class="word">us</span> <span class="word">singing,</span></div>
+                <div class="line"><span class="word">halleluja,</span> <span class="word">hallelujah,</span> <span class="word">hallelujah,</span></div>
+                <div class="line"><span class="word">hallelujah,</span> <span class="word">hallelujah!</span></div>
+            </div>
+        </div>
+        
+        <!-- 内容二 -->
+        <div id="content2" class="content-area" style="display: none;">
+            <!-- 内容二分段1 -->
+            <div class="verse">
+                <div id="infoPanel2" class="info-panel">
+                    <div id="phoneticDisplay2" class="phonetic"></div>
+                    <div id="translationDisplay2" class="translation"></div>
+                </div>
+                <div class="line"><span class="word">Silent</span> <span class="word">night,</span> <span class="word">holy</span> <span class="word">night.</span></div>
+                <div class="line"><span class="word">All</span> <span class="word">is</span> <span class="word">calm.</span> <span class="word">all</span> <span class="word">is</span> <span class="word">bright.</span></div>
+                <div class="line"><span class="word">Round</span> <span class="word">yon</span> <span class="word">virgin</span> <span class="word">mother</span> <span class="word">and</span> <span class="word">child</span></div>
+                <div class="line"><span class="word">Holy</span> <span class="word">infant</span> <span class="word">so</span> <span class="word">tender</span> <span class="word">and</span> <span class="word">mild</span></div>
+                <div class="line"><span class="word">Sleep</span> <span class="word">in</span> <span class="word">heavenly</span> <span class="word">peace</span></div>
+                <div class="line"><span class="word">Sleep</span> <span class="word">in</span> <span class="word">heavenly</span> <span class="word">peace</span></div>
+            </div>
+            
+            <!-- 内容二分段2 -->
+            <div class="verse">
+                <div id="infoPanel2-2" class="info-panel">
+                    <div id="phoneticDisplay2-2" class="phonetic"></div>
+                    <div id="translationDisplay2-2" class="translation"></div>
+                </div>
+                <div class="line"><span class="word">Silent</span> <span class="word">night,</span> <span class="word">holy</span> <span class="word">night.</span></div>
+                <div class="line"><span class="word">Shepherds</span> <span class="word">quake</span> <span class="word">at</span> <span class="word">the</span> <span class="word">sight.</span></div>
+                <div class="line"><span class="word">Glories</span> <span class="word">stream</span> <span class="word">from</span> <span class="word">heaven</span> <span class="word">afar,</span></div>
+                <div class="line"><span class="word">Heavnly</span> <span class="word">hosts</span> <span class="word">sing</span> <span class="word">Alleluia</span></div>
+                <div class="line"><span class="word">Christ</span> <span class="word">the</span> <span class="word">Savior</span> <span class="word">is</span> <span class="word">born!</span></div>
+                <div class="line"><span class="word">Christ</span> <span class="word">the</span> <span class="word">Savior</span> <span class="word">is</span> <span class="word">born!</span></div>
+            </div>
+            
+            <!-- 内容二分段3 -->
+            <div class="verse">
+                <div id="infoPanel2-3" class="info-panel">
+                    <div id="phoneticDisplay2-3" class="phonetic"></div>
+                    <div id="translationDisplay2-3" class="translation"></div>
+                </div>
+                <div class="line"><span class="word">Silent</span> <span class="word">night,</span> <span class="word">holy</span> <span class="word">night.</span></div>
+                <div class="line"><span class="word">Son</span> <span class="word">of</span> <span class="word">god</span> <span class="word">love's</span> <span class="word">pure</span> <span class="word">light.</span></div>
+                <div class="line"><span class="word">Radiant</span> <span class="word">beams</span> <span class="word">from</span> <span class="word">thy</span> <span class="word">holy</span> <span class="word">face</span></div>
+                <div class="line"><span class="word">With</span> <span class="word">the</span> <span class="word">dawn</span> <span class="word">of</span> <span class="word">redeeming</span> <span class="word">grace,</span></div>
+                <div class="line"><span class="word">Jesus</span> <span class="word">lord,</span> <span class="word">at</span> <span class="word">thy</span> <span class="word">birth!</span></div>
+                <div class="line"><span class="word">Jesus</span> <span class="word">lord,</span> <span class="word">at</span> <span class="word">thy</span> <span class="word">birth!</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 按钮切换功能
+        document.getElementById('btn1').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn2').classList.remove('active');
+            document.getElementById('content1').style.display = 'block';
+            document.getElementById('content2').style.display = 'none';
+            resetView();
+        });
+        
+        document.getElementById('btn2').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn1').classList.remove('active');
+            document.getElementById('content1').style.display = 'none';
+            document.getElementById('content2').style.display = 'block';
+            resetView();
+        });
+        
+        // 重置视图
+        function resetView() {
+            const activeWords = document.querySelectorAll('.word.active');
+            activeWords.forEach(word => word.classList.remove('active'));
+            document.querySelectorAll('.info-panel').forEach(panel => panel.style.display = 'none');
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+        }
+        
+        // 音频播放相关变量
+        let currentAudio = null;
+        let currentActiveWord = null;
+        
+        // 获取有道词典发音
+        function getYoudaoPronunciation(word) {
+            // 清理单词，移除标点符号
+            const cleanWord = word.replace(/[.,;:!?]/g, '');
+            return `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(cleanWord)}&type=2`;
+        }
+        
+        // 播放单词发音
+        function playWordPronunciation(word, panelId, phoneticId, translationId) {
+            // 停止当前音频
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            
+            // 获取发音URL
+            const audioUrl = getYoudaoPronunciation(word);
+            
+            // 创建新的音频对象
+            currentAudio = new Audio(audioUrl);
+            
+            // 查找信息面板元素
+            const infoPanel = document.getElementById(panelId);
+            const phoneticElement = document.getElementById(phoneticId);
+            const translationElement = document.getElementById(translationId);
+            
+            // 检查元素是否存在
+            if (phoneticElement && translationElement) {
+                // 显示加载状态
+                phoneticElement.textContent = `正在加载 "${word}" 的发音...`;
+                translationElement.textContent = '';
+                infoPanel.style.display = 'block';
+                
+                // 播放音频
+                currentAudio.play().catch(e => {
+                    console.error("音频播放失败:", e);
+                    phoneticElement.textContent = `"${word}" 发音获取失败`;
+                    translationElement.textContent = '请检查网络连接';
+                });
+                
+                // 音频播放结束后的处理
+                currentAudio.onended = function() {
+                    // 这里可以添加获取词义和音标的逻辑
+                    fetchWordInfo(word, phoneticId, translationId);
+                };
+            } else {
+                console.error(`找不到元素: ${phoneticId} 或 ${translationId}`);
+            }
+        }
+        
+        // 获取单词信息（音标和中文释义）
+        function fetchWordInfo(word, phoneticId, translationId) {
+            // 清理单词，移除标点符号
+            const cleanWord = word.replace(/[.,;:!?]/g, '');
+            
+            const mockData = {
+                "Clap": { pronunciation: "klæp", meaning: "拍手" },
+                "your": { pronunciation: "jɔːr", meaning: "你的" },
+                "hands": { pronunciation: "hændz", meaning: "手" },
+                "and": { pronunciation: "ænd", meaning: "和" },
+                "sing": { pronunciation: "sɪŋ", meaning: "唱" },
+                "hallelujah": { pronunciation: "ˌhæləˈluːjə", meaning: "哈利路亚" },
+                "Reach": { pronunciation: "riːtʃ", meaning: "伸展" },
+                "up": { pronunciation: "ʌp", meaning: "向上" },
+                "to": { pronunciation: "tu", meaning: "到" },
+                "the": { pronunciation: "ðə", meaning: "这/那" },
+                "sky": { pronunciation: "skaɪ", meaning: "天空" },
+                "Lift": { pronunciation: "lɪft", meaning: "举起" },
+                "voices": { pronunciation: "ˈvɔɪsɪz", meaning: "声音" },
+                "high": { pronunciation: "haɪ", meaning: "高" },
+                "Won't": { pronunciation: "woʊnt", meaning: "不会" },
+                "you": { pronunciation: "ju", meaning: "你" },
+                "join": { pronunciation: "dʒɔɪn", meaning: "加入" },
+                "celebration": { pronunciation: "ˌseləˈbreɪʃn", meaning: "庆祝" },
+                "Come": { pronunciation: "kʌm", meaning: "来" },
+                "let": { pronunciation: "lɛt", meaning: "让" },
+                "song": { pronunciation: "sɔːŋ", meaning: "歌曲" },
+                "ring": { pronunciation: "rɪŋ", meaning: "回响" },
+                "loud": { pronunciation: "laʊd", meaning: "大声" },
+                "clear": { pronunciation: "klɪr", meaning: "清晰" },
+                "Cause": { pronunciation: "kɔːz", meaning: "因为" },
+                "cause": { pronunciation: "kɔːz", meaning: "因为" },
+                "a": { pronunciation: "ə", meaning: "一个" },
+                "brand": { pronunciation: "brænd", meaning: "新的" },
+                "new": { pronunciation: "nu", meaning: "新的" },
+                "day": { pronunciation: "deɪ", meaning: "天" },
+                "is": { pronunciation: "ɪz", meaning: "是" },
+                "here": { pronunciation: "hɪr", meaning: "这里" },
+                "can": { pronunciation: "kən", meaning: "能" },
+                "find": { pronunciation: "faɪnd", meaning: "找到" },
+                "little": { pronunciation: "ˈlɪtl", meaning: "一点" },
+                "bit": { pronunciation: "bɪt", meaning: "少量" },
+                "of": { pronunciation: "əv", meaning: "的" },
+                "sunshine": { pronunciation: "ˈsʌnʃaɪn", meaning: "阳光" },
+                "even": { pronunciation: "ˈiːvn", meaning: "即使" },
+                "on": { pronunciation: "ɑːn", meaning: "在" },
+                "darkest": { pronunciation: "ˈdɑːrkiːst", meaning: "最黑暗的" },
+                "if": { pronunciation: "ɪf", meaning: "如果" },
+                "try": { pronunciation: "traɪ", meaning: "尝试" },
+                "chase": { pronunciation: "tʃeɪs", meaning: "驱赶" },
+                "troubles": { pronunciation: "ˈtrʌblz", meaning: "烦恼" },
+                "away": { pronunciation: "əˈweɪ", meaning: "离开" },
+                "So": { pronunciation: "soʊ", meaning: "所以" },
+                "before": { pronunciation: "bɪˈfɔːr", meaning: "在...之前" },
+                "another": { pronunciation: "əˈnʌðər", meaning: "另一个" },
+                "day": { pronunciation: "deɪ", meaning: "天" },
+                "over": { pronunciation: "ˈoʊvər", meaning: "结束" },
+                "at": { pronunciation: "æt", meaning: "在" },
+                "something": { pronunciation: "ˈsʌmθɪŋ", meaning: "某事" },
+                "never": { pronunciation: "ˈnɛvər", meaning: "从不" },
+                "know": { pronunciation: "noʊ", meaning: "知道" },
+                "What's": { pronunciation: "wʌts", meaning: "什么" },
+                "what's": { pronunciation: "wʌts", meaning: "什么" },
+                "out": { pronunciation: "aʊt", meaning: "外面" },
+                "there": { pronunciation: "ðer", meaning: "那里" },
+                "waiting": { pronunciation: "ˈweɪtɪŋ", meaning: "等待" },
+                "for": { pronunciation: "fɔːr", meaning: "为了" },
+                "us": { pronunciation: "ʌs", meaning: "我们" },
+                "singing": { pronunciation: "ˈsɪŋɪŋ", meaning: "唱歌" },
+                "halleluja": { pronunciation: "ˌhæləˈluːjə", meaning: "哈利路亚" },
+                "hallelujah": { pronunciation: "ˌhæləˈluːjə", meaning: "哈利路亚" },
+                "Silent": { pronunciation: "ˈsaɪlənt", meaning: "安静的" },
+                "night": { pronunciation: "naɪt", meaning: "夜晚" },
+                "holy": { pronunciation: "ˈhoʊli", meaning: "神圣的" },
+                "All": { pronunciation: "ɔːl", meaning: "全部" },
+                "calm": { pronunciation: "kɑːm", meaning: "平静" },
+                "bright": { pronunciation: "braɪt", meaning: "明亮" },
+                "Round": { pronunciation: "raʊnd", meaning: "围绕" },
+                "yon": { pronunciation: "jɑːn", meaning: "那边的" },
+                "virgin": { pronunciation: "ˈvɜːrdʒɪn", meaning: "处女" },
+                "mother": { pronunciation: "ˈmʌðər", meaning: "母亲" },
+                "child": { pronunciation: "tʃaɪld", meaning: "孩子" },
+                "infant": { pronunciation: "ˈɪnfənt", meaning: "婴儿" },
+                "so": { pronunciation: "soʊ", meaning: "如此" },
+                "tender": { pronunciation: "ˈtendər", meaning: "温柔的" },
+                "mild": { pronunciation: "maɪld", meaning: "温和的" },
+                "Sleep": { pronunciation: "sliːp", meaning: "睡觉" },
+                "in": { pronunciation: "ɪn", meaning: "在...里" },
+                "heavenly": { pronunciation: "ˈhevnli", meaning: "天堂般的" },
+                "peace": { pronunciation: "piːs", meaning: "和平" },
+                "Shepherds": { pronunciation: "ˈʃepərdz", meaning: "牧羊人" },
+                "quake": { pronunciation: "kweɪk", meaning: "震动" },
+                "sight": { pronunciation: "saɪt", meaning: "景象" },
+                "Glories": { pronunciation: "ˈɡlɔːriz", meaning: "荣耀" },
+                "stream": { pronunciation: "striːm", meaning: "流淌" },
+                "from": { pronunciation: "frəm", meaning: "从" },
+                "heaven": { pronunciation: "ˈhevn", meaning: "天堂" },
+                "afar": { pronunciation: "əˈfɑːr", meaning: "远方" },
+                "Heavnly": { pronunciation: "ˈhevnli", meaning: "天堂般的" },
+                "hosts": { pronunciation: "hoʊsts", meaning: "天军" },
+                "Alleluia": { pronunciation: "əˌlɛlˈuːjə", meaning: "哈利路亚" },
+                "Christ": { pronunciation: "kraɪst", meaning: "基督" },
+                "Savior": { pronunciation: "ˈseɪvjər", meaning: "救世主" },
+                "born": { pronunciation: "bɔːrn", meaning: "诞生" },
+                "Son": { pronunciation: "sʌn", meaning: "儿子" },
+                "god": { pronunciation: "ɡɑːd", meaning: "神" },
+                "love's": { pronunciation: "lʌvz", meaning: "爱的" },
+                "pure": { pronunciation: "pjʊr", meaning: "纯洁的" },
+                "light": { pronunciation: "laɪt", meaning: "光" },
+                "Radiant": { pronunciation: "ˈreɪdiənt", meaning: "发光的" },
+                "beams": { pronunciation: "biːmz", meaning: "光束" },
+                "thy": { pronunciation: "ðaɪ", meaning: "你的" },
+                "face": { pronunciation: "feɪs", meaning: "面容" },
+                "With": { pronunciation: "wɪð", meaning: "随着" },
+                "dawn": { pronunciation: "dɔːn", meaning: "黎明" },
+                "redeeming": { pronunciation: "rɪˈdiːmɪŋ", meaning: "救赎的" },
+                "grace": { pronunciation: "ɡreɪs", meaning: "恩典" },
+                "Jesus": { pronunciation: "ˈdʒiːzəs", meaning: "耶稣" },
+                "lord": { pronunciation: "lɔːrd", meaning: "主" },
+                "birth": { pronunciation: "bɜːrθ", meaning: "诞生" }
+            };
+            
+            const phoneticElement = document.getElementById(phoneticId);
+            const translationElement = document.getElementById(translationId);
+            
+            if (phoneticElement && translationElement) {
+                if (mockData[cleanWord]) {
+                    phoneticElement.textContent = `/${mockData[cleanWord].pronunciation}/`;
+                    translationElement.textContent = mockData[cleanWord].meaning;
+                } else {
+                    phoneticElement.textContent = `[无法获取音标]`;
+                    translationElement.textContent = `词义: ${cleanWord}`;
+                }
+            }
+        }
+        
+        // 添加点击事件到所有单词
+        function addWordClickEvents() {
+            // 内容1第1段
+            const words1 = document.querySelectorAll('#content1 .verse:nth-child(1) .word');
+            words1.forEach(word => {
+                word.addEventListener('click', function() {
+                    const wordText = this.textContent;
+                    updateActiveWord(this);
+                    playWordPronunciation(wordText, 'infoPanel1', 'phoneticDisplay1', 'translationDisplay1');
+                });
+            });
+            
+            // 内容1第2段
+            const words1_2 = document.querySelectorAll('#content1 .verse:nth-child(2) .word');
+            words1_2.forEach(word => {
+                word.addEventListener('click', function() {
+                    const wordText = this.textContent;
+                    updateActiveWord(this);
+                    playWordPronunciation(wordText, 'infoPanel1-2', 'phoneticDisplay1-2', 'translationDisplay1-2');
+                });
+            });
+            
+            // 内容1第3段
+            const words1_3 = document.querySelectorAll('#content1 .verse:nth-child(3) .word');
+            words1_3.forEach(word => {
+                word.addEventListener('click', function() {
+                    const wordText = this.textContent;
+                    updateActiveWord(this);
+                    playWordPronunciation(wordText, 'infoPanel1-3', 'phoneticDisplay1-3', 'translationDisplay1-3');
+                });
+            });
+            
+            // 内容2第1段
+            const words2 = document.querySelectorAll('#content2 .verse:nth-child(1) .word');
+            words2.forEach(word => {
+                word.addEventListener('click', function() {
+                    const wordText = this.textContent;
+                    updateActiveWord(this);
+                    playWordPronunciation(wordText, 'infoPanel2', 'phoneticDisplay2', 'translationDisplay2');
+                });
+            });
+            
+            // 内容2第2段
+            const words2_2 = document.querySelectorAll('#content2 .verse:nth-child(2) .word');
+            words2_2.forEach(word => {
+                word.addEventListener('click', function() {
+                    const wordText = this.textContent;
+                    updateActiveWord(this);
+                    playWordPronunciation(wordText, 'infoPanel2-2', 'phoneticDisplay2-2', 'translationDisplay2-2');
+                });
+            });
+            
+            // 内容2第3段
+            const words2_3 = document.querySelectorAll('#content2 .verse:nth-child(3) .word');
+            words2_3.forEach(word => {
+                word.addEventListener('click', function() {
+                    const wordText = this.textContent;
+                    updateActiveWord(this);
+                    playWordPronunciation(wordText, 'infoPanel2-3', 'phoneticDisplay2-3', 'translationDisplay2-3');
+                });
+            });
+        }
+        
+        // 更新激活的单词
+        function updateActiveWord(newActiveWord) {
+            if (currentActiveWord) {
+                currentActiveWord.classList.remove('active');
+            }
+            newActiveWord.classList.add('active');
+            currentActiveWord = newActiveWord;
+        }
+        
+        // 初始化
+        window.onload = function() {
+            addWordClickEvents();
+        };
+    </script>
+</body>
+</html>
